@@ -32,4 +32,3 @@ class UserListContainer extends React.Component {
 }
 
 export default UserListContainer;
-
