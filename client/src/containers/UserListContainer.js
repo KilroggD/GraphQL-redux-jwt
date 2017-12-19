@@ -1,7 +1,8 @@
-import React from 'react';
-import ApiService from '../ApiService';
-import UserList from '../components/UserList';
-import UserForm from '../forms/UserForm';
+import React from 'react'
+import ApiService from '../ApiService'
+import UserList from '../components/UserList'
+import UserForm from '../forms/UserForm'
+import { connect } from 'react-redux'
 
 class UserListContainer extends React.Component {
 

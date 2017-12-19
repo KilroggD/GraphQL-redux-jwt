@@ -1,7 +1,8 @@
-import React from 'react';
-import TodoList from '../components/TodoList';
-import ApiService from '../ApiService';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import TodoList from '../components/TodoList'
+import ApiService from '../ApiService'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 class TodoListContainer extends React.Component {
 
