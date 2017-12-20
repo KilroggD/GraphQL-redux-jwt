@@ -2,13 +2,15 @@ import formReducer from './formReducer'
 import todosReducer from './todosReducer'
 import usersReducer from './usersReducer'
 import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
 
-const rootReducer = combineReducers(
+const reducer = combineReducers(
     {
-        formReducer,
-        todosReducer,
-        usersReducer,
+        form: formReducer,
+        todos: todosReducer,
+        users: usersReducer,
+        routerReducer
     }
 )
 
-export default rootReducer
+export default reducer

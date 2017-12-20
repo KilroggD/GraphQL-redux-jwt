@@ -25,7 +25,7 @@ class TodoListContainer extends React.Component {
 
         return (
             <div className="todo">
-                <TodoList todos={this.props.todos} />
+                {this.props.todos && <TodoList todos={this.props.todos} />}
                 <Link className="todo__linkback" to='/'>Back to Users search</Link>
             </div>
         );
@@ -42,7 +42,7 @@ const mapStateToProps = ({ todos }) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         loadTodos: (userId) => {
-            dispatch({ userId })
+            dispatch(todosAction({ userId }))
         }
     }
 }

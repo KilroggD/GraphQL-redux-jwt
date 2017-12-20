@@ -1,3 +1,4 @@
+
 const formReducer = (state = {}, action) => {
     switch (action.type) {
         case 'FORM_LOAD':
@@ -5,6 +6,8 @@ const formReducer = (state = {}, action) => {
                 ...state,
                 ...action.data,
             }
+        case 'FORM_CLEAR':
+            return {}
         default:
             return state
     }

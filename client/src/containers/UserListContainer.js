@@ -3,44 +3,53 @@ import UserList from '../components/UserList'
 import UserForm from '../forms/UserForm'
 import { connect } from 'react-redux'
 import { getUsers } from '../actions/usersActions'
-import { loadFormAction } from '../actions/formActions'
+import { loadForm, loadFormAction, clearFormAction } from '../actions/formActions'
 
 class UserListContainer extends React.Component {
 
     componentDidMount() {
         this.props.loadForm();
+        this.props.search();
     }
 
     render() {
         //add loading and failure state
-        if(this.props.isLoading) {
+        if (this.props.isLoading) {
             return <span>Loading...</span>
         }
 
-        if(this.props.isFailure) {
+        if (this.props.isFailure) {
             return <span>Error loading users!</span>
         }
 
         return <div className="user">
-            <UserForm {...this.props.form} submitHandler={this.props.search} />
-            <UserList users={this.props.users} />
+            <UserForm data={this.props.form}
+                submitHandler={this.props.search}
+                changeHandler={this.props.changeForm}
+                clearHandler={this.props.clearForm} />
+            {this.props.users && <UserList users={this.props.users} />}
         </div>;
     }
 
 
 }
 
-const mapStateToProps = ({ user, form }) => {
+const mapStateToProps = ({ users, form }) => {
     return {
-        ...user,
+        ...users,
         form,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        search: (params) => { dispatch(getUsers(params)) },
-        loadForm: () => { dispatch(loadFormAction()) }
+        search: () => { dispatch(getUsers()) },
+        loadForm: () => { dispatch(loadFormAction()) },
+        changeForm: (params) => { dispatch(loadForm(params)) },
+        clearForm: (params) => {
+            dispatch(clearFormAction())
+            dispatch(getUsers())
+         },
     }
 }
 

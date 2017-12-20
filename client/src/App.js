@@ -1,8 +1,8 @@
-import React from 'react';
-import './styles/style.css';
-import UserListContainer from './containers/UserListContainer';
-import TodoListContainer from './containers/TodoListContainer';
-import { Route, Switch } from 'react-router-dom';
+import React from 'react'
+import './styles/style.css'
+import UserListContainer from './containers/UserListContainer'
+import TodoListContainer from './containers/TodoListContainer'
+import { Route, Switch } from 'react-router-dom'
 
 const App = () => {
     return <Switch>
@@ -11,4 +11,4 @@ const App = () => {
     </Switch>
 };
 
-export default App;
+export default App

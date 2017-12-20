@@ -4,7 +4,7 @@ const initialState = {
     todos: null,
 }
 
-const todosReducer = (state = initialState, action) {
+const todosReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'TODO_REQUEST':
             return {
