@@ -13,7 +13,7 @@ const todosFailure = () => ({
     type: 'TODOS_FAILURE'
 })
 
-const todosAction = (params) => async dispatch => {
+export const todosAction = (params) => async dispatch => {
     try {
         dispatch(todosRequest())
         const data = await ApiService.getTodos(params)
@@ -23,5 +23,3 @@ const todosAction = (params) => async dispatch => {
         dispatch(todosFailure())
     }
 }
-
-export default todosAction

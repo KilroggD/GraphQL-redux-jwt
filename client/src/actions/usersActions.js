@@ -13,7 +13,7 @@ const failureUsers = () => ({
     type: 'USERS_FAILURE',
 })
 
-const getUsers = (params) => async dispatch => {
+export const getUsers = (params) => async dispatch => {
     try {
         dispatch(requestUsers())
         const data = await ApiService.getUsers(params)
@@ -22,5 +22,3 @@ const getUsers = (params) => async dispatch => {
         dispatch(failureUsers())
     }
 }
-
-export default getUsers

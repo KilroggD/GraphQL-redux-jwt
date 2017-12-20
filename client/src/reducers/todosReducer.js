@@ -10,7 +10,7 @@ const todosReducer = (state = initialState, action) {
             return {
                 ...state,
                 isLoading: true,
-                isError: false,
+                isFailure: false,
             }
         case 'TODOS_RECEIVE':
             return {

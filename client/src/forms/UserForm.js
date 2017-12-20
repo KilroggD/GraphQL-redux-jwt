@@ -2,41 +2,26 @@ import React from 'react';
 
 class UserForm extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            first_name: '',
-            last_name: '',
-            department: '',
-            country: '',
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({[event.target.name]: event.target.value});
-    }
 
     handleSubmit(event) {
         event.preventDefault();
-        return this.props.submitHandler(this.state);
+        return this.props.submitHandler(this.props);
     }
 
     render() {
         return (
-            <form className="user__form" onSubmit={this.handleSubmit}>
+            <form className="user__form" onSubmit={this.handleSubmit.bind(this)}>
                 <label>
                     First Name:
-                    <input type="text" name="first_name" value={this.state.first_name} onChange={this.handleChange} />
+                    <input type="text" name="first_name" value={this.props.first_name} />
                 </label>
                 <label>
                     Last Name:
-                    <input type="text" name="last_name" value={this.state.last_name} onChange={this.handleChange} />
+                    <input type="text" name="last_name" value={this.props.last_name} />
                 </label>
                 <label>
                 Department:
-                    <select name="department" value={this.state.department || ''} onChange={this.handleChange}>
+                    <select name="department" value={this.props.department || ''}>
                         <option value=''>Select department</option>
                         <option value="Development">Development</option>
                         <option value="Support">Support</option>
@@ -45,7 +30,7 @@ class UserForm extends React.Component {
                 </label>
                 <label>
                     Country
-                    <select name="country" value={this.state.country || ''} onChange={this.handleChange}>
+                    <select name="country" value={this.props.country || ''}>
                         <option value=''>Select country</option>
                         <option value="Ireland">Ireland</option>
                         <option value="United Kingdom">United Kingdom</option>

@@ -10,7 +10,7 @@ const usersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: true,
-                isError: false,
+                isFailure: false,
             }
         case 'USERS_RECEIVE':
             return {

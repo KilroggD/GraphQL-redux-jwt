@@ -5,11 +5,9 @@ const loadForm = (data) => {
     data
 }
 
-const formAction = () => (dispatch) => {
+export const loadFormAction = () => (dispatch) => {
     //load form data from local storage
     const data = StorageService.getSearchData() || {}
     //dispatch an action
     dispatch(loadForm(data))
 }
-
-export default formAction

@@ -1,13 +1,9 @@
-const initialState = {
-    data: null,
-}
-
-const formReducer = (state = initialState, action) => {
+const formReducer = (state = {}, action) => {
     switch (action.type) {
         case 'FORM_LOAD':
             return {
                 ...state,
-                data: action.data,
+                ...action.data,
             }
         default:
             return state
