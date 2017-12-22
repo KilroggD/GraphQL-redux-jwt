@@ -14,7 +14,7 @@ const failureUsers = () => ({
     type: 'USERS_FAILURE',
 })
 
-export const getUsers = (params, clearForm = false) => async (dispatch, getState) => {
+export const getUsers = (params) => async (dispatch, getState) => {
     try {
         dispatch(requestUsers())
         const params = getState().form
