@@ -14,7 +14,7 @@ const Users = [
         "email": "fjedras1@diigo.com",
         "gender": "Male",
         "department": "Development",
-        "country": "United Kingdom"
+        "country": "United Kingdom",
     }, {
         "id": 3,
         "first_name": "Lutero",

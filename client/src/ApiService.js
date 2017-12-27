@@ -9,26 +9,23 @@ class ApiService {
      * @returns {ApiService}
      */
     constructor() {
-        this.apiUrl = 'http://localhost:3001/graphql';
-        this.userFields = `{id, first_name, last_name, email, department, country, todo_count}`;
-        this.todoFields = `{id title completed user {first_name, last_name}}`;
+        this.baseUrl = 'http://localhost:3001'
+        this.apiUrl = 'http://localhost:3001/graphql'
+        this.userFields = `{id, first_name, last_name, email, department, country, todo_count}`
+        this.todoFields = `{id title completed user {first_name, last_name}}`
     }
-
     /**
-     * Generic function to fetch data from server
+     * Generic function to fetch data from server via graphql API
      * @param {string} query
      * @returns {unresolved}
      */
-    async getGraphQlData(resource, params, fields) {
+    async getGraphQlData(query, token = false) {
         const query = `{${resource} ${this.paramsToString(params)} ${fields}}`
         const res = await fetch(this.apiUrl, {
             method: 'POST',
             mode: 'cors',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }),
-            body: JSON.stringify({query}),
+            headers: this.buildHeaders(token),
+            body: JSON.stringify({ query }),
         });
         if (res.ok) {
             const body = await res.json();
@@ -38,6 +35,38 @@ class ApiService {
         }
     }
 
+    /**
+     * Generic API call (for non-graphql endpoints)
+     * @param {string} url 
+     * @param {object} params 
+     */
+    async apiCall(url, params = {}, method = 'POST') {
+        const res = await fetch(`${this.baseUrl}${url}/`, {
+            method,
+            mode: 'cors',
+            headers: this.buildHeaders(),
+            body: JSON.stringify(params),
+        })
+        if (!res.ok) {
+            throw new Error(res.status)
+        }
+        return res.body
+    }
+
+
+    /**
+     * Build  http headers object
+     * @param {string|boolean} token 
+     */
+    buildHeaders(token = false) {
+        let headers = new Headers();
+        headers.append('Content-type', 'application/json');
+        if (token) {
+            headers.append('Authorization', `JWT ${token}`);
+        }
+
+        return headers;
+    }
     /**
      * 
      * @param {object} params
@@ -61,6 +90,28 @@ class ApiService {
     }
 
     /**
+     * Login user and return jwt token or throw error in case of fail
+     * @param {string} login
+     * @param {string} password
+     */
+    async login(params) {
+        const res  = await this.apiCall('/login', params)
+        return res.token
+    }
+
+
+    /**
+     * Verify current token and return current user or throw error
+     * @param {string} token 
+     */
+    async verifyToken(token) {
+        const res = await this.apiCall('/verifyToken', {
+            token,
+        })
+        return res.user
+    }
+
+    /**
      * 
      * @param {object} params
      * @returns {String} params converted to string for usage in graphQL
@@ -71,7 +122,7 @@ class ApiService {
             let tmp = [];
             for (let key in params) {
                 let paramStr = params[key];
-                if(paramStr !== '') {
+                if (paramStr !== '') {
                     if (typeof params[key] === 'string') {
                         paramStr = `"${paramStr}"`;
                     }
