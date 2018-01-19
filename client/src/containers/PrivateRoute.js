@@ -30,7 +30,10 @@ class PrivateRoute extends React.Component {
             ...props
         } = this.props
         if (this.props.isLoading) {
-            return <Loading />;
+            return <Loading />
+        }
+        if (!current_user) {
+            return null
         }
         return (
             <Route
