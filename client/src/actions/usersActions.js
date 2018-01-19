@@ -18,7 +18,8 @@ export const getUsers = (params) => async (dispatch, getState) => {
     try {
         dispatch(requestUsers())
         const params = getState().form
-        const data = await ApiService.getUsers(params)
+        const token = StorageService.getToken()
+        const data = await ApiService.getUsers(params, token)
         if (Object.keys(params).length && data) {
             //save successful request
             StorageService.setSearchData(params)

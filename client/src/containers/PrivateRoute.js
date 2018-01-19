@@ -2,20 +2,24 @@ import React from 'react'
 import { Route } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import routes from '../routes'
 import Loading from '../components/Loading'
-import { verifyToken } from '../actions/authActions'
+import Header from '../components/Header'
+import { verifyToken, logout } from '../actions/authActions'
 
 /**
- * Private route to navigate over admin/private routes
+ * Private route to navigate over private routes
  * If not logged in - goes to login
  * If not admin but required - throws an error!
  */
 
 class PrivateRoute extends React.Component {
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.dispatch(verifyToken())
+    }
+
+    logoutHandler() {
+        this.props.dispatch(logout())
     }
 
     render() {
@@ -33,7 +37,11 @@ class PrivateRoute extends React.Component {
                 {...props}
                 render={props =>
                     isAuthenticated
-                        ? <Component {...props} />
+                        ?
+                        <main>
+                            <Header current_user={current_user} logout={this.logoutHandler.bind(this)} />
+                            <Component {...props} />
+                        </main>
                         : (
                             <Redirect to={{
                                 pathname: '/login',

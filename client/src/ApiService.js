@@ -19,7 +19,7 @@ class ApiService {
      * @param {string} query
      * @returns {unresolved}
      */
-    async getGraphQlData(query, token = false) {
+    async getGraphQlData(resource, params, fields, token = false) {
         const query = `{${resource} ${this.paramsToString(params)} ${fields}}`
         const res = await fetch(this.apiUrl, {
             method: 'POST',
@@ -40,17 +40,17 @@ class ApiService {
      * @param {string} url 
      * @param {object} params 
      */
-    async apiCall(url, params = {}, method = 'POST') {
+    async apiCall(url, params = {}, method = 'POST', token = false) {
         const res = await fetch(`${this.baseUrl}${url}/`, {
             method,
             mode: 'cors',
-            headers: this.buildHeaders(),
+            headers: this.buildHeaders(token),
             body: JSON.stringify(params),
         })
         if (!res.ok) {
             throw new Error(res.status)
         }
-        return res.body
+        return res.json()
     }
 
 
@@ -72,8 +72,10 @@ class ApiService {
      * @param {object} params
      * @returns {array} users list or empty list
      */
-    async getUsers(params = {}) {
-        const data = await this.getGraphQlData('users', params, this.userFields);
+    async getUsers(params = {}, token) {
+        const data = await this.getGraphQlData(
+            'users', params, this.userFields, token
+        );
         //return users list
         return data.users;
     }
@@ -83,8 +85,10 @@ class ApiService {
      * @param {object} params
      * @returns {array} users list or empty list
      */
-    async getTodos(params = {}) {
-        const data = await this.getGraphQlData('todos', params, this.todoFields);
+    async getTodos(params = {}, token) {
+        const data = await this.getGraphQlData(
+            'todos', params, this.todoFields, token
+        );
         //return todos list
         return data.todos;
     }
@@ -95,7 +99,8 @@ class ApiService {
      * @param {string} password
      */
     async login(params) {
-        const res  = await this.apiCall('/login', params)
+        const res = await this.apiCall('/login', params)
+        console.log(res)
         return res.token
     }
 
@@ -105,9 +110,7 @@ class ApiService {
      * @param {string} token 
      */
     async verifyToken(token) {
-        const res = await this.apiCall('/verifyToken', {
-            token,
-        })
+        const res = await this.apiCall('/verifyToken', {}, 'POST', token)
         return res.user
     }
 

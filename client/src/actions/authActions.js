@@ -1,6 +1,5 @@
 import ApiService from '../ApiService'
 import StorageService from '../StorageService'
-import routes from '../routes'
 import { push } from 'react-router-redux'
 
 const loginSuccess = () => ({
@@ -31,8 +30,9 @@ const receiveProfile = (data) => ({
 
 export const login = (params) => async dispatch => {
     try {
-        const res = await ApiService.login(params)
-        StorageService.setToken(res.token)
+        const token = await ApiService.login(params)
+        console.log(token)
+        StorageService.setToken(token)
         dispatch(loginSuccess())
         dispatch(push('/'))
     } catch (e) {
@@ -54,13 +54,13 @@ export const verifyToken = () => async dispatch => {
         return
     }
     try {
-        dispatch(requestProfile)
-        await ApiService.verify_token(StorageService.getToken())
+        dispatch(requestProfile())
+        const user =await ApiService.verifyToken(StorageService.getToken())
+        dispatch(receiveProfile(user))
         dispatch(loginSuccess())
-        dispatch(receiveProfile())
     } catch (e) {
         //remove token and logout if invalid
-        console.error(e.message)
+        console.error(e.message)        
         StorageService.removeToken()
         dispatch(logoutAction())
     }

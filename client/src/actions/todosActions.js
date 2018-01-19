@@ -1,4 +1,5 @@
 import ApiService from '../ApiService'
+import StorageService from '../StorageService';
 
 const todosRequest = () => ({
     type: 'TODOS_REQUEST'
@@ -14,9 +15,9 @@ const todosFailure = () => ({
 })
 
 export const todosAction = (params) => async dispatch => {
-    try {
+    try {       
         dispatch(todosRequest())
-        const data = await ApiService.getTodos(params)
+        const data = await ApiService.getTodos(params, StorageService.getToken())
         dispatch(todosReceive(data))
     } catch(e) {
         console.error(e.message)

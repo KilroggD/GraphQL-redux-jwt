@@ -90,3 +90,13 @@
 .todo__ulabel {
     margin-right: 5px;
 }
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header__link {
+    margin-left: 5px;
+}

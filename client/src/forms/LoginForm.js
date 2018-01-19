@@ -1,5 +1,4 @@
 import React from 'react'
-import Form from './Form'
 
 class LoginForm extends React.Component {
 

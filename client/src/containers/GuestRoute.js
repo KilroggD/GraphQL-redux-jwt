@@ -14,7 +14,7 @@ class GuestRoute extends React.Component {
             isAuthenticated,
             component: Component,
             ...props
-        } = this.props
+        } = this.props        
         return (
             <Route
                 {...props}

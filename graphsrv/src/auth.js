@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import Users from './data/users'
 import find from 'lodash/find';
 
-const expiresInMinutes = 1440
+const expiresIn = '3h'
 const secret = 'samplejwtauthgraphql'
 const tokenPrefix = 'JWT'
 
@@ -17,8 +17,8 @@ export const createToken = (email, password) => {
     }
     const user = find(Users,
         (user) => {
-            user.email === email.toLowerCase()
-                && user.last_name.toLowerCase === password
+            return user.email === email.toLowerCase()
+                && user.last_name.toLowerCase() === password
         }
     );
     if (!user) { //return false if not found
@@ -28,7 +28,7 @@ export const createToken = (email, password) => {
         username: user.email,
     }
     const token = jwt.sign(payload, secret, {
-        expiresInMinutes
+        expiresIn
     })
     return token
 }
