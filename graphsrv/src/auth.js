@@ -9,7 +9,7 @@ const tokenPrefix = 'JWT'
 /**
  * Use email as login, use password as password
  * @param {string} email 
- * @param {string} password 
+ * @param {string} password
  */
 export const createToken = (email, password) => {
     if (!email || !password) { //no credentials = fail
