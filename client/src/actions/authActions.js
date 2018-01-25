@@ -31,7 +31,6 @@ const receiveProfile = (data) => ({
 export const login = (params) => async dispatch => {
     try {
         const token = await ApiService.login(params)
-        console.log(token)
         StorageService.setToken(token)
         dispatch(loginSuccess())
         dispatch(push('/'))
@@ -49,7 +48,7 @@ export const logout = () => dispatch => { //destroy token and logout
 
 
 export const verifyToken = () => async dispatch => {
-    if (!StorageService.getToken()) { //if no token - do nothing
+    if (!StorageService.getToken()) { //if no token - logout
         dispatch(logoutAction())
         return
     }
