@@ -37,6 +37,7 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 isFailure: false,
                 isLoading: true,
+                current_user: null,
             }
         case 'AUTH_RECEIVE_PROFILE': //receive current user profile and put into state
             return {
